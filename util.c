@@ -8,22 +8,8 @@
 
 #include "memcached.h"
 
-static char *uriencode_map[256];
-static char uriencode_str[768];
-
-void uriencode_init(void) {
-    int x;
-    char *str = uriencode_str;
-    for (x = 0; x < 256; x++) {
-        if (isalnum(x) || x == '-' || x == '.' || x == '_' || x == '~') {
-            uriencode_map[x] = NULL;
-        } else {
-            snprintf(str, 4, "%%%02hhX", (unsigned char)x);
-            uriencode_map[x] = str;
-            str += 3; /* lobbing off the \0 is fine */
-        }
-    }
-}
+char *uriencode_map[256];
+char uriencode_str[768];
 
 bool uriencode(const char *src, char *dst, const size_t srclen, const size_t dstlen) {
     int x;
